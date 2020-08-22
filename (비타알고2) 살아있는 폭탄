@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> P;
+ll n;
+int arr[1010][1010];
+struct POS {
+	int x;
+	int y;
+};
+
+int main() {
+	cin >> n;
+	queue<POS> v;
+	int x[4] = { 0,0,1,-1 };
+	int y[4] = { -1,1,0,0 };
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> arr[i][j];
+			if (arr[i][j]) {
+				v.push({ i,j });
+			}
+		}
+	}
+	int cnt = 1;
+	while (v.size()) {
+		int sx = v.front().x; int sy = v.front().y;
+		cnt = max(cnt, arr[sx][sy]);
+		v.pop();
+		for (int j = 0; j < 4; j++) {
+				int nx = sx+ x[j];
+				int ny = sy+ y[j];
+				if (arr[nx][ny] == 0&& nx >= 0 && ny >= 0 && nx < n && ny < n) {
+					v.push({ nx,ny });
+					arr[nx][ny] = arr[sx][sy] + 1;
+				}
+			}
+	}
+	cout << cnt;
+}
