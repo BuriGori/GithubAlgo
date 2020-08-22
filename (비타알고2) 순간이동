@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> P;
+int n;
+int arr[1010][1010];
+int chk[10101010];
+int cx[4] = { 0,0,-1,1 };
+int cy[4] = { -1,1,0,0 };
+int ans = n * n;
+
+int choice(int a,int i) {
+	switch (a) {
+	case 1:return i / 3;
+		break;
+	case 2:return i / 2;
+		break;
+	case 3:return i - 1;
+		break;
+	case 4:return i + 1;
+		break;
+	case 5:return i * 2;
+		break;
+	case 6:return i * 3;
+	}
+}
+
+int main() {
+	int a, b;
+	cin >> a >> b;
+	queue<int> q;
+	q.push(a);
+	chk[a] = 1;
+	while (q.size()) {
+		int cur = q.front();
+		if (cur == b) {
+			cout << chk[cur] - 1;
+			return 0;
+		}
+		q.pop();
+		for (int i = 1; i <= 6; i++) {
+			if ((i == 1 && cur % 3) || (i == 2 && cur % 2))continue;
+			if (choice(i, cur) <= 10000000 && choice(i, cur) >= 0 && chk[choice(i, cur)] == 0) {
+				chk[choice(i, cur)] = chk[cur]+1;
+				q.push(choice(i, cur));
+			}
+		}	
+	}
+}
