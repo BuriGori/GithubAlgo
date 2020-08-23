@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> P;
+int n;
+int arr[1010];
+vector<int> v[1010];
+
+bool go(int s, int color) {
+	arr[s] = color;
+	for (int i = 0; i < v[s].size(); i++) {
+		int next = v[s][i];
+		if (arr[next] == -1)
+			go(next, color ^ 1);
+		else if (arr[next] == color)
+			return 0;
+	}
+	return 1;
+}
+
+int main() {
+	for (int i = 0; i < 1010; i++)
+		arr[i] = -1;
+	int k; cin >> n >> k;
+	for (int i = 0; i <= n; i++)
+		v[i].clear();
+	for (int i = 0; i < k; i++) {
+		int a, b;
+		cin >> a >> b;
+		v[a].push_back(b);
+		v[b].push_back(a);
+	}
+	if (go(1, 0))
+		cout << "yes";
+	else
+		cout << "no";
+}
