@@ -1,0 +1,28 @@
+#include<iostream>
+#include<string.h>
+#include<bits/stdc++.h>
+typedef long long ll;
+
+using namespace std;
+ll d[2][101010];
+int dx[] = { 0, 0, -1, 1 };
+int dy[] = { -1, 1, 0, 0 };
+ll n,cnt;
+vector<ll> v;
+
+ll go(int op, int cur, int prev) {
+	if (v.size() == cur) return prev;
+	ll& res = d[op][cur];
+	if (~res) return res;
+	res = min(go(0, cur + 1, 0) + v[cur] + prev, go(1, cur + 1, 2) + 9 - v[cur]);
+	return res;
+}
+
+int main() {
+	memset(d, -1, sizeof(d));
+	string str; cin >> str;
+	for (auto c : str) {
+		v.push_back(c - '0');
+	}
+	cout << min(go(0, 0, 0), go(1, 0, 0));
+}
