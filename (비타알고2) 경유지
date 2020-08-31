@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+const int VAMX = 20202;
+const int inf = 1e8;
+typedef long long ll;
+struct EDGE {
+	int to, way;
+};
+vector<EDGE> v[20202];
+bool operator < (EDGE e1, EDGE e2) {
+	return e1.way > e2.way;
+}
+
+vector<int> dijkstra(int s) {
+	vector<int> ans(VAMX);
+	fill(ans.begin(), ans.end(), inf);
+	priority_queue<EDGE> q;
+	q.push({ s,0 });
+	ans[s] = 0;
+	while (q.size()) {
+		int cur = q.top().to, d = q.top().way;
+		q.pop();
+		for (int i = 0; i < v[cur].size(); i++) {
+			int nextV = v[cur][i].to, nextD = v[cur][i].way + d;
+			if (ans[nextV] > nextD) {
+				ans[nextV] = nextD;
+				q.push({ nextV,nextD });
+			}
+		}
+	}
+	return ans;
+}
+
+int main() {
+	int n, e;
+	cin >> n >> e;
+	for (int i = 0; i < e; i++) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		v[a].push_back({ b,c });
+		v[b].push_back({ a,c });
+	}
+	int hong, obj,tarn; cin >> hong>>obj>>tarn;
+	vector<int> t;
+	while (t.size() != tarn) {
+		int a; cin >> a;
+		t.push_back(a);
+	}
+	int minn = 0, other = 0;
+	vector<int> ans = dijkstra(hong);
+
+	if (t.size() == 1) {
+		minn += ans[t[0]];
+		ans = dijkstra(t[0]);
+		minn += ans[obj];
+	}
+	else {
+		minn += ans[t[0]];
+		other += ans[t[1]];
+
+		ans = dijkstra(t[0]);
+		minn += ans[t[1]];
+		other += ans[obj];
+
+		ans = dijkstra(t[1]);
+		minn += ans[obj];
+		other += ans[t[0]];
+
+		minn = min(minn, other);
+	}
+	cout << (minn>=inf ? -1 : minn ) ;
+}
