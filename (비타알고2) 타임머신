@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+bool ncy=0;
+int inf=1e8;
+struct VAL{
+	int x,y,w;
+};
+
+vector<VAL> v;
+vector<int> ansn(int s,int n){
+	vector<int> ans(n+1);
+	fill(ans.begin(),ans.end(),inf);
+	ans[s]=0;
+	for(int i=1;i<=n;i++){
+		for(int j=0;j<v.size();j++){
+			int from=v[j].x, to=v[j].y ,way=v[j].w;
+			if(ans[from]!=inf && ans[to]>ans[from]+way){
+			ans[to]=ans[from]+way;
+			if(i==n){
+			ncy=1;
+			break;
+				}
+			}
+		}
+	}
+	return ans;
+}
+
+
+
+int main(){
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+	int n,e;cin>>n>>e;
+	v.resize(e);
+	for(int i=0;i<e;i++){
+		cin>>v[i].x>>v[i].y>>v[i].w;
+	}
+	ansn(1,n);
+	if(!ncy)
+	cout<<"Yes";
+	else
+	cout<<"No";
+}
