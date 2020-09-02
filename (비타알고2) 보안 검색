@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+vector<ll> vec;
+ll check(vector<ll>& v, ll time){
+	ll res = 0;
+	for(int i=0;i<vec.size();i++){
+		res += time/vec[i];
+	}
+	return res;
+}
+int main(){
+	ll n,k;cin>>n>>k;
+	vec.resize(n);
+	for(int i=0;i<n;i++){
+		cin>>vec[i];
+	}
+	ll l=0,r=1e15,mid;
+	ll ans=1e15;
+	while(l<=r){
+		mid=(l+r)/2;
+		if(k>check(vec,mid))
+			l=mid+1;
+		else{
+			r=mid-1;
+			ans=min(ans,mid);
+		}
+	}
+	cout<<ans;
+}
