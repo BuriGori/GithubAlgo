@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+struct VAL{
+	int from, to, way;
+};
+
+vector<VAL> vec;
+int inf=1e8;
+bool cyn=0;
+
+vector<int> check(int s,int v){
+	vector<int> ans(v*2+1);
+	fill(ans.begin(),ans.end(),inf);
+	ans[s]=0;
+	for(int i=1; i<=v*2 ;i++){
+		for(int j=0; j<vec.size(); j++){
+			int from=vec[j].from, to=vec[j].to ,way=vec[j].way;
+			if(ans[from]!=inf && ans[to]>ans[from]+way){
+				if(i==v*2){
+					cyn=1;
+					break;
+				}
+				ans[to]=ans[from]+way;
+			}
+		}
+	}
+	return ans;
+}
+
+
+int main(){
+	int v,e;cin>>v>>e;
+	vec.push_back({1,1+v,0});
+	for(int i=0;i<v-1;i++){
+		int num;cin>>num;
+		vec.push_back({i+2,i+v+2,num});
+	}
+	for(int i=0;i<e;i++){
+		int from,to;cin>>from>>to;
+		vec.push_back({from+v,to,0});
+	}
+	vector<int> ans = check(1,v);
+	if(cyn)
+		cout<<"No";
+	else{
+		for(int i=2;i<=v;i++){
+			if(ans[i+v]==inf)
+				cout<<"INF";
+			else
+				cout<<ans[i+v];
+			cout<<"\n";
+		}
+	}
+}
