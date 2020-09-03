@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int val[505][505];
+int inf=1e8;
+
+int main(){
+	int v,e,q;cin>>v>>e;
+	for(int i=1;i<=v;i++)
+		for(int j=1;j<=v;j++)
+			val[i][j]=inf;
+	for(int i=0;i<e;i++){
+		int a,b;cin>>a>>b;
+		val[a][b]=1;
+	}
+	for(int k=1;k<=v;k++){
+		for(int i=1;i<=v;i++){
+			for(int j=1;j<=v;j++){
+				if(val[i][j]>val[i][k]+val[k][j])
+					val[i][j]=min(val[i][j],val[i][k]+val[k][j]);
+			}
+		}
+	}
+	cin>>q;for(int i=0;i<q;i++){
+		int a,b;cin>>a>>b;
+		if(val[b][a]>=inf && val[a][b]<inf)
+			cout<<"O\n";
+		else if(val[a][b]>=inf&&val[b][a]<inf)
+			cout<<"X\n";
+		else
+			cout<<"?\n";
+	}
+}
