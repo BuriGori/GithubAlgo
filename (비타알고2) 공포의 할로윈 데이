@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int inf=1e8;
+struct VAL{
+	int to, from, sna;
+};
+
+vector<VAL> v1;
+bool cyn=0;
+vector<int> ans(int s, int v){
+	vector<int> seq(v+1);
+	fill(seq.begin(),seq.end(),inf);
+	seq[s]=0;
+	for(int i=1;i<=v;i++){
+		for(int j=0; j<v1.size();j++){
+			int to=v1[j].to, from=v1[j].from, sna=v1[j].sna;
+			if(seq[from]!=inf && seq[to]>seq[from]+sna){
+				seq[to]=seq[from]+sna;
+				if(i==v){
+					cyn=1;
+					break;
+				}
+			}
+		}
+	}
+	return seq;
+}
+
+int main(){
+	int v,e;cin>>v>>e;
+	v1.resize(e);
+	for(int i=0;i<e;i++){
+		cin>>v1[i].to>>v1[i].from>>v1[i].sna;
+	}
+	ans(1,v);
+	if(!cyn)
+		cout<<"Happy";
+	else
+		cout<<"Not happy";
+	
+}
