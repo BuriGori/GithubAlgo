@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int arr[101010][2];
+
+void jw(int s){
+	if(~s){
+		cout<<s<<" ";
+		jw(arr[s][0]);
+		jw(arr[s][1]);
+	}
+}
+void zw(int s){
+	if(~s){
+		zw(arr[s][0]);
+		cout<<s<<" ";
+		zw(arr[s][1]);
+	}
+}
+void hw(int s){
+	if(~s){
+		hw(arr[s][0]);
+		hw(arr[s][1]);
+		cout<<s<<" ";
+	}
+}
+
+
+int main(){
+	int n,s;cin>>n;
+	memset(arr,-1,sizeof(arr));
+	for(int i=0;i<n;i++){
+		int a,b,c;cin>>a>>b>>c;
+		arr[a][0]=b;
+		arr[a][1]=c;
+	}
+	jw(1);
+	cout<<"\n";
+	zw(1);
+	cout<<"\n";
+	hw(1);
+}
