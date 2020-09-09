@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int pos[505][505];
+int inf=1e8;
+
+int main(){
+	int v,e;cin>>v>>e;
+	for(int i=1;i<=v;i++)
+		for(int j=1;j<=v;j++)
+			pos[i][j]=inf;
+	for(int i=1;i<=e;i++){
+		int from,to,num;cin>>from>>to>>num;
+		pos[from][to]=min(pos[from][to],num);
+		pos[to][from]=min(pos[to][from],num);
+		}
+	for(int k=1;k<=v;k++)
+		for(int i=1;i<=v;i++)
+			for(int j=1;j<=v;j++)
+					pos[i][j]=min(pos[i][j],pos[i][k]+pos[k][j]);
+	for(int i=1;i<=v;i++){
+		for(int j=1;j<=v;j++)
+			cout<<((i==j || pos[i][j]>=inf)?0:pos[i][j])<<" ";
+		cout<<"\n";
+	}
+	
+}
