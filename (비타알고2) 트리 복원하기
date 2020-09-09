@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int n;
+
+vector<int> jw,hw;
+void check(int left,int right,int sr){
+	if(left==right)
+		return;
+	int inter=find(jw.begin(),jw.end(),sr)-jw.begin();
+	int l=inter-left;
+	int r=right-inter;
+	if(l){
+		int nr=hw[l-1];
+		cout<<hw[l-1]<<" ";
+		
+		hw.erase(hw.begin()+l-1);
+		check(left,inter-1,nr);
+	}
+	if(r){
+		int nr=hw[r-1];
+		cout<<hw[r-1]<<" ";
+		hw.erase(hw.begin()+r-1);
+		check(inter+1,right,nr);
+	}
+	return;
+}
+
+
+
+int main(){
+	cin>>n;
+	jw.resize(n);
+	hw.resize(n);
+	for(int i=0;i<n;i++)
+		cin>>jw[i];
+	for(int i=0;i<n;i++)
+		cin>>hw[i];
+	
+	int sr=hw[n-1];
+	cout<<sr<<" ";
+	check(0,n-1,sr);
+	
+	
+	
+	
+}
