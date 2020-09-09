@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+ll inf=1e9+7;
+
+ll power(ll a,ll n){
+	ll res=1;
+	while(n){
+		if(n%2){
+			res*=a;
+			res%=inf;
+		}
+		a*=a;
+		a%=inf;
+		n/=2;
+	}
+	return res;
+}
+
+int main(){
+	ll m=power(2,inf-2);
+	ll n;cin>>n;
+	ll ans=3;
+	ans*=(n%inf);
+	ans%=inf;
+	ans*=((n+1)%inf);
+	ans%=inf;
+	ans*=m;
+	ans%=inf;
+	cout<<ans;
+}
