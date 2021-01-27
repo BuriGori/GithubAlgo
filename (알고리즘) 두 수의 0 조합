@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+
+int main() {
+	int n = 0; cin >> n;
+	vector<int> vec(n);
+	for (int i = 0; i < n; i++) {
+		cin >> vec[i];
+	}
+	sort(vec.begin(), vec.end());
+	bool ans = 0;
+	int r = vec.size() - 1, l = 0;
+	while (r > l) {
+		if (vec[r] + vec[l] > 0)
+			r--;
+		else if (vec[r] + vec[l] < 0)
+			l++;
+		else if (vec[r] + vec[l] == 0)
+		{
+			cout << vec[l] << " " << vec[r];
+			ans = 1;
+			break;
+		}
+	}
+	if (!ans)
+		cout << -1;
+}
