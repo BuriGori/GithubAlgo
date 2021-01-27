@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ll fac[2002], facinv[2002];
+ll mod = 1e9 + 7;
+
+ll pow(ll a, ll n) {
+	ll res = 1;
+	while (n) {
+		if (n % 2) {
+			res *= a;
+			res %= mod;
+		}
+		a *= a;
+		a %= mod;
+		n /= 2;
+	}
+	return res;
+}
+ll com(ll n, ll r) {
+	return fac[n] * facinv[r] % mod * facinv[n - r] % mod;
+}
+
+int main() {
+	fac[0] = 1;
+	for (int i = 1; i < 2002; i++) fac[i] = (fac[i - 1] * i) % mod;
+	facinv[2001] = pow(fac[2001], mod - 2);
+	for (int i = 2000; i >= 0; i--) facinv[i] = (facinv[i + 1] * (i + 1)) % mod;
+
+	ll n, r; cin >> n >> r;
+	cout << com(n, r);
+}
