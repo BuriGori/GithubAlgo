@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> P;
+int n;
+int arr[101010];
+vector<int> v;
+
+int main() {
+	int ans;
+	cin >> n;
+	v.resize(n);
+	memset(arr, 0x3f, sizeof(arr));
+	for (int i = 0; i < n; i++) {
+		cin >> v[i];
+	}
+	cin >> ans;
+	int j = 1;
+	arr[0] = 0;
+	sort(v.begin(), v.end());
+	while (j<=ans) {
+		for (int i = 0;i<v.size(); i++) {
+			if (j>= v[i]) {
+				arr[j] = min(arr[j],arr[j - v[i]] + 1);
+			}
+		}
+		j++;
+		if (j == ans + 1&&arr[ans]<100001) {
+			cout << arr[ans];
+			return 0;
+		}
+	}
+	cout << "-1";
+}
