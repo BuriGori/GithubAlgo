@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+int lin[1010], rev[1010];
+
+int main() {
+	int n; cin >> n;
+	vector<int> vec(n+1);
+	for (int i = 1; i <= n; i++)
+		cin >> vec[i];
+	for (int i = 1; i <= n; i++) {
+		lin[i] = 1;
+		for (int j = 1; j < i; j++)
+			if (vec[j] < vec[i] && lin[i] < lin[j] + 1)
+				lin[i] = lin[j] + 1;
+		int cur = n + 1 - i;
+		rev[cur] = 1;
+		for (int j = n; j > cur; j--)
+			if (vec[cur] > vec[j] && rev[cur] < rev[j] + 1) 
+				rev[cur] = rev[j] + 1;
+	}
+	int mx = 0;
+	for (int i = 1; i <= n; i++) {
+		int cur = lin[i] + rev[i] - 1;
+		mx = max(cur, mx);
+	}
+	cout << mx;
+}
