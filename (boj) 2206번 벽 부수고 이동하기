@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+int h, w, answer = 1e9;
+int nx[] = { 0,1,0,-1 };
+int ny[] = { -1,0,1,0 };
+int chk[1010][1010][2];
+int bfs(vector<vector<int>> v) {
+    queue<pair<pair<int, int>,int>> q;
+    q.push({ { 0,0 },1 });
+    chk[0][0][1] = 1;
+    while (q.size()) {
+        auto cur = q.front();
+        int x = cur.first.first;
+        int y = cur.first.second;
+        int block = cur.second;
+        q.pop();
+        if (x == h - 1 && y == w - 1)return chk[x][y][block];
+        for (int i = 0; i < 4; i++) {
+            int nextx = x + nx[i];
+            int nexty = y + ny[i];
+            if (0 <= nextx && nextx < h && 0 <= nexty && nexty < w) {
+                if (v[nextx][nexty] == 1 && block) {
+                    chk[nextx][nexty][block - 1] = chk[x][y][block] + 1;
+                    q.push({ {nextx,nexty},block - 1 });
+                }
+                else if (v[nextx][nexty] == 0 && chk[nextx][nexty][block] == 0) {
+                    chk[nextx][nexty][block] = chk[x][y][block] + 1;
+                    q.push({ {nextx,nexty},block});
+                }
+            }
+        }
+    }
+    return -1;
+}
+
+
+
+
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> h >> w;
+    vector<vector<int>> vec(h, vector<int>(w));
+    for (int i = 0; i < h; i++) {
+        string str; cin >> str;
+        for (int j = 0; j < w; j++) {
+            if (str[j] == '1')vec[i][j] = 1;
+        }
+    }
+    int ans = bfs(vec);
+    cout << ans;
+}
