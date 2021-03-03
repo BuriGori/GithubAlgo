@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+int arr[20202];
+bool bfs(int s, vector<vector<int>> v) {
+	queue<int> q;
+	q.push(s);
+	while (q.size()) {
+		int cur = q.front();
+		q.pop();
+		int color = (arr[cur] + 1) % 2;
+		for (int i = 0; i < v[cur].size(); i++) {
+			int next = v[cur][i];
+			if (arr[next] == -1) {
+				arr[next] = color;
+				q.push(next);
+			}
+			else if (arr[next] == arr[cur])
+				return false;
+		}
+	}
+	return true;
+}
+
+
+
+int main() {
+	int t; cin >> t;
+	while (t--) {
+		memset(arr, -1, sizeof(arr));
+		int n, m; cin >> n >> m;
+		vector<vector<int>> vec(n + 1);
+		for (int i = 0; i < m; i++) {
+			int from, to; cin >> from >> to;
+			vec[from].push_back(to);
+			vec[to].push_back(from);
+		}
+		bool ans = true;
+		for (int i = 1; i <= n; i++) {
+			if (arr[i] == -1 && ans) {
+				arr[i] = 1;
+				ans = bfs(i, vec);
+			}
+		}
+		if (ans)cout << "YES" << "\n";
+		else cout << "NO" << "\n";
+	}
+}
