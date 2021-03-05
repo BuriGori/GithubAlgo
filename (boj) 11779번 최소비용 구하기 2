@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct val {
+	int to, w;
+};
+vector<val> vec[1010];
+int n,k;
+int arr[1010];
+int chk[1010];
+bool operator < (val a, val b) {
+	return a.w == b.w ? a.to > b.to:a.w > b.w;
+}
+vector<int> go(int s) {
+	vector<int> ans(k + 1,1e8);
+	ans[s] = 0;
+	priority_queue<val> q;
+	q.push({ s,0 });
+	while (q.size()) {
+		int cur = q.top().to, w = q.top().w;
+		q.pop();
+		if (ans[cur] < w)continue;
+		for (int i = 0; i < vec[cur].size(); i++) {
+			int next = vec[cur][i].to, nextw = vec[cur][i].w + w;
+			if (ans[next] > nextw) {
+				ans[next] = nextw;
+				chk[next] = cur;
+				q.push({ next,nextw });
+			}
+		}
+	}
+	return ans;
+}
+
+int main() {
+	cin >> k >> n;
+	for (int i = 0; i < n; i++) {
+		int from, to, w; cin >> from >> to >> w;
+		vec[from].push_back({ to,w });
+	}
+	int s, e; cin >> s >> e;
+	vector<int> ans = go(s);
+	vector<int> answer;
+	cout << ans[e] << "\n";
+	int cur = e;
+	while (cur) {
+		answer.push_back(cur);
+		cur = chk[cur];
+	}
+
+	cout << answer.size() << "\n";
+	for (int i=answer.size()-1;i>=0;i--)
+		cout << answer[i] << " ";
+}
