@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+int inf = 1e9;
+int arr[202020];
+int tail[202020];
+
+int find(const int& a) {
+	if (a == arr[a])
+		return a;
+	else
+		return arr[a] = find(arr[a]);
+}
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	int t; cin >> t;
+	while (t--) {
+		int n; cin >> n;
+		for (int i = 0; i <= n * 2; i++) {
+			arr[i] = i;
+			tail[i] = 1;
+		}
+		map<string, int> name;
+		int idx = 1;
+		string a, b;
+		for (int i = 0; i < n; i++) {
+			cin >> a >> b;
+			if (name.count(a) == 0)
+				name[a] = idx++;
+			if (name.count(b) == 0)
+				name[b] = idx++;
+
+			int aa = find(name[a]);
+			int bb = find(name[b]);
+
+			if (aa < bb) {
+				arr[bb] = aa;
+				tail[aa] += tail[bb];
+				tail[bb] = 0;
+				cout << tail[aa] << "\n";
+			}
+			else if (aa > bb) {
+				arr[aa] = bb;
+				tail[bb] += tail[aa];
+				tail[aa] = 0;
+				cout << tail[bb] << "\n";
+			}
+			else
+				cout << tail[aa] << "\n";
+		}
+	}
+}
