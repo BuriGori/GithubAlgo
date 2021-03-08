@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, m;
+struct val {
+	int x, y;
+};
+val obj;
+int go(int x, int y) {
+	int rt = (m - y) + (m - obj.y) + abs(x - obj.x);
+	int lt = y + obj.y + abs(x - obj.x);
+	if ((x == obj.x && (x == n || x == 0))) {
+		rt = abs(obj.y - y);
+		lt = abs(obj.y - y);
+	}
+	else if ((y == obj.y && (y == m || y == 0))) {
+		rt = abs(obj.x - x);
+		lt = abs(obj.x - x);
+	}
+	return min(rt, lt);
+}
+
+int main() {
+	int k;
+	cin >> m >> n >> k;
+	vector<val> vec(k+1);
+	for (int i = 0; i < k+1; i++) {
+		int a, b; cin >> a >> b;
+		switch (a) {
+		case 1:
+			vec[i].x = n;
+			vec[i].y = b;
+			break;
+		case 2:
+			vec[i].x = 0;
+			vec[i].y = b;
+			break;
+		case 3:
+			vec[i].x = n-b;
+			vec[i].y = 0;
+			break;
+		case 4:
+			vec[i].x = n-b;
+			vec[i].y = m;
+			break;
+		}
+	}
+
+	obj.x = vec.back().x;
+	obj.y = vec.back().y;
+	int sum = 0;
+	for (int i = 0; i < k; i++)
+		sum += go(vec[i].x, vec[i].y);
+	cout << sum;
+}
