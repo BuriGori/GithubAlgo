@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+string ans= "a";
+int visited[10101];
+void dfs(vector<vector<string>>& str, string cur, string path,int depth){
+    if(depth==str.size()){
+        if(path<ans)
+        ans=path;
+        return;
+    }
+    for(int i=0;i<str.size();i++){
+        if(visited[i]==0 && str[i][0]==cur){
+            visited[i]=1;
+            dfs(str,str[i][1],path+str[i][1],depth+1);
+            visited[i]=0;
+        }
+    }
+}
+
+vector<string> solution(vector<vector<string>> tickets) {
+    vector<string> answer;
+    dfs(tickets,"ICN","ICN",0);
+    for(int i=0;i<ans.length();i+=3){
+        answer.push_back(ans.substr(i,3));
+    }
+    return answer;
+}
